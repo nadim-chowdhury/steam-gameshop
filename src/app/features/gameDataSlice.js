@@ -1,24 +1,27 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const fetchGames = createAsyncThunk("games/fetchGames", async () => {
-  const options = {
-    method: "GET",
-    url: import.meta.env.VITE_API_URL + "/games",
-    params: {
-      title: "assassin",
-      exact: "0",
-      limit: "16",
-    },
-    headers: {
-      "X-RapidAPI-Key": import.meta.env.VITE_API_KEY,
-      "X-RapidAPI-Host": import.meta.env.VITE_API_HOST,
-    },
-  };
+export const fetchGames = createAsyncThunk(
+  "games/fetchGames",
+  async (title) => {
+    const options = {
+      method: "GET",
+      url: import.meta.env.VITE_API_URL + "/games",
+      params: {
+        title: title ? title : "assassin",
+        exact: "0",
+        limit: "16",
+      },
+      headers: {
+        "X-RapidAPI-Key": import.meta.env.VITE_API_KEY,
+        "X-RapidAPI-Host": import.meta.env.VITE_API_HOST,
+      },
+    };
 
-  const response = await axios.request(options);
-  return response.data;
-});
+    const response = await axios.request(options);
+    return response.data;
+  }
+);
 
 const initialState = {
   loading: false,
